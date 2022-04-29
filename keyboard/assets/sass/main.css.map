@@ -1,0 +1,11 @@
+{
+    "version": 3,
+    "mappings": "ACAA,AAAA,CAAC,CAAC;EACE,OAAO,EAAE,CAAC;EACV,MAAM,EAAE,CAAC;CACZ",
+    "sources": [
+        "main.scss",
+        "base/_reset.scss",
+        "components/_keyboard.scss"
+    ],
+    "names": [],
+    "file": "main.css"
+}
