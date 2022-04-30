@@ -18,6 +18,10 @@ module.exports = (env, argv) => {
         patterns: [{
           from: path.resolve(__dirname, 'src/assets/favicon', 'favicon.ico'),
           to: path.resolve(__dirname, 'dist'),
+        },
+        {
+          from: path.resolve(__dirname, 'src/assets/sound', 'clc1.mp3'),
+          to: path.resolve(__dirname, 'dist/sound'),
         }],
       }),
       new MiniCssExtractPlugin({
@@ -30,7 +34,7 @@ module.exports = (env, argv) => {
 
   return {
     entry: {
-      main: './src/assets/js/app.js',
+      main: './src/assets/js/main.js',
     },
     output: {
       path: path.resolve(__dirname, 'dist'),

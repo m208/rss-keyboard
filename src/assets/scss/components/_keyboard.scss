@@ -34,12 +34,15 @@
                 background-color: #e5e3e4;
             }
         }
+        .active {
+            background-color: aquamarine !important;
+        }
 
         .key-long {
             max-width: unset !important;
         }
         .key-long-fixed {
-            max-width: 74px !important;
+            max-width: 110px !important;
         }
     }
 }
