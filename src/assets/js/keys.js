@@ -39,13 +39,6 @@ export const keys = {
     en: '=', enUp: '+', ru: '=', ruUp: '+', code: 'Equal',
   },
 
-  Backspace: {
-    en: 'Backspace', enUp: 'Backspace', ru: 'Backspace', ruUp: 'Backspace', code: 'Backspace',
-  },
-  Tab: {
-    en: 'Tab', enUp: 'Tab', ru: 'Tab', ruUp: 'Tab', code: 'Tab',
-  },
-
   q: {
     en: 'q', enUp: 'Q', ru: 'й', ruUp: 'Й', code: 'KeyQ',
   },
@@ -141,10 +134,6 @@ export const keys = {
     en: '\'', enUp: '"', ru: 'э', ruUp: 'Э', code: 'Quote',
   },
 
-  Del: {
-    en: 'Del', code: 'Delete',
-  },
-
   ',': {
     en: ',', enUp: '<', ru: 'б', ruUp: 'Б', code: 'Comma',
   },
@@ -155,35 +144,19 @@ export const keys = {
     en: '/', enUp: '?', ru: '.', ruUp: ',', code: 'Slash',
   },
 
-  CapsLock: {
-    en: 'CapsLock', enUp: 'CapsLock', ru: 'CapsLock', ruUp: 'CapsLock', code: 'CapsLock',
-  },
-  Enter: {
-    en: 'Enter', enUp: 'Enter', ru: 'Enter', ruUp: 'Enter', code: 'Enter',
-  },
-  Shift: {
-    en: 'Shift', enUp: 'Shift', ru: 'Shift', ruUp: 'Shift', code: 'ShiftLeft',
-  },
-  ShiftRight: {
-    en: 'Shift', enUp: 'Shift', ru: 'Shift', ruUp: 'Shift', code: 'ShiftLeft',
-  },
-  Ctrl: {
-    en: 'Ctrl', enUp: 'Ctrl', ru: 'Ctrl', ruUp: 'Ctrl', code: 'ControlLeft',
-  },
-  CtrlRight: {
-    en: 'Ctrl', enUp: 'Ctrl', ru: 'Ctrl', ruUp: 'Ctrl', code: 'ControlLeft',
-  },
-
-  Win: {
-    en: 'Win', enUp: 'Win', ru: 'Win', ruUp: 'Win', code: 'MetaLeft',
-  },
-  Space: {
-    en: 'Space', enUp: 'Space', ru: 'Space', ruUp: 'Space', code: 'Space',
-  },
-
+  Backspace: { en: 'Backspace', code: 'Backspace' },
+  Tab: { en: 'Tab', code: 'Tab' },
+  Del: { en: 'Del', code: 'Delete' },
+  CapsLock: { en: 'CapsLock', code: 'CapsLock' },
+  Enter: { en: 'Enter', code: 'Enter' },
+  Shift: { en: 'Shift', code: 'ShiftLeft' },
+  ShiftRight: { en: 'Shift', code: 'ShiftLeft' },
+  Ctrl: { en: 'Ctrl', code: 'ControlLeft' },
+  CtrlRight: { en: 'Ctrl', code: 'ControlLeft' },
+  Win: { en: 'Win', code: 'MetaLeft' },
+  Space: { en: 'Space', code: 'Space' },
   Alt: { en: 'Alt', code: 'AltLeft' },
   AltRight: { en: 'Alt', code: 'AltLeft' },
-
   ArrowUp: { en: '&#9650;', code: 'ArrowUp' },
   ArrowLeft: { en: '&#9668;', code: 'ArrowLeft' },
   ArrowDown: { en: '&#9660;', code: 'ArrowDown' },
@@ -191,13 +164,24 @@ export const keys = {
 
 };
 
-export const styles = {
-  Backspace: { style: 'key-long' },
-  Tab: { style: 'key-long' },
-  Del: { style: 'key-long' },
-  CapsLock: { style: 'key-long' },
-  Enter: { style: 'key-long' },
-  Shift: { style: 'key-long' },
-  ShiftRight: { style: 'key-long-fixed' },
-  Space: { style: 'key-long' },
+export const params = {
+  Backspace: { style: 'key-long', type: 'Functional' },
+  Tab: { style: 'key-long', type: 'Functional' },
+  Del: { style: 'key-long', type: 'Functional' },
+  CapsLock: { style: 'key-long', type: 'Functional' },
+  Enter: { style: 'key-long', type: 'Functional' },
+  Shift: { style: 'key-long', type: 'Functional' },
+  ShiftRight: { style: 'key-long-fixed', type: 'Functional' },
+  Space: { style: 'key-long', type: 'Functional' },
+  Ctrl: { type: 'Functional' },
+  CtrlRight: { type: 'Functional' },
+  Win: { type: 'Functional' },
+  Alt: { type: 'Functional' },
+  AltRight: { type: 'Functional' },
+
+  ArrowUp: { type: 'Functional' },
+  ArrowLeft: { type: 'Functional' },
+  ArrowDown: { type: 'Functional' },
+  ArrowRight: { type: 'Functional' },
+
 };
