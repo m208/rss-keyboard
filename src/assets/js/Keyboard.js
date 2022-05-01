@@ -1,5 +1,5 @@
 import { keys, styles } from './keys';
-import Control from './Control';
+import Element from './Element';
 import Key from './Key';
 
 export default class Keyboard {
@@ -11,22 +11,27 @@ export default class Keyboard {
     ['Ctrl', 'Win', 'Alt', 'Space', 'AltRight', 'ArrowLeft', 'ArrowDown', 'ArrowRight', 'CtrlRight'],
   ];
 
-  keys = {};
+  buttons = {};
 
   constructor(app) {
     this.app = app;
-    const layout = new Control(document.body, 'keyboard');
+    const layout = new Element(document.body, { classes: 'keyboard' });
     this.keysLayout.forEach((row) => {
-      const line = new Control(layout.node, 'key-line');
+      const line = new Element(layout.node, { classes: 'key-line' });
       row.forEach((item) => {
-        const button = new Key(line.node, 'key', keys[item], styles[item], () => { app.playSound(item); });
-        this.keys[keys[item].code] = button;
+        const buttonParams = {
+          values: keys[item],
+          styles: styles[item],
+          callback: () => { app.playSound(item); },
+        };
+        const button = new Key(line.node, { classes: 'key' }, buttonParams);
+        this.buttons[keys[item].code] = button;
       });
     });
   }
 
   highLightKey(keyCode, bool) {
-    this.keys[keyCode].highLight(bool);
+    this.buttons[keyCode].highLight(bool);
     if (bool) this.app.playSound();
   }
 }

@@ -1,8 +1,10 @@
-import Control from './Control';
+import Element from './Element';
 import Keyboard from './Keyboard';
+import TextOutput from './TetxOutput';
 
 export default class App {
   constructor() {
+    // const output = new TextOutput(this);
     const keyboard = new Keyboard(this);
     this.audio = new Audio('/dist/sound/clc1.mp3');
 

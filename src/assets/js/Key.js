@@ -1,12 +1,13 @@
-import Control from './Control';
+import Element from './Element';
 
-export default class Key extends Control {
-  constructor(parent, classes, values, attr, callback) {
-    super(parent, classes);
-    if (attr) this.node.classList.add(attr.style);
+export default class Key extends Element {
+  constructor(parent, options, params) {
+    super(parent, options);
 
-    this.node.innerHTML = values.en;
-    this.node.onclick = () => { callback(); };
+    if (params.styles) this.node.classList.add(params.styles.style);
+
+    this.node.innerHTML = params.values.en;
+    this.node.onclick = params.callback;
   }
 
   highLight(bool) {
