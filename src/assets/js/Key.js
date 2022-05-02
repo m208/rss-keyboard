@@ -3,10 +3,13 @@ import Element from './Element';
 export default class Key extends Element {
   active = false;
 
+  led = false;
+
   constructor(parent, options, params, lang) {
     super(parent, options);
 
     this.values = params.values;
+
     this.type = params.type || 'default';
 
     if (params.styles) this.node.classList.add(params.styles);
@@ -14,7 +17,27 @@ export default class Key extends Element {
     this.value = params.values[lang] || params.values.en;
     this.node.innerHTML = this.value;
 
-    this.node.onclick = params.callback;
+    let fireInterval = null;
+    // setInterval is used to repeately fire key on mousedown
+    this.node.onmousedown = () => {
+      this.active = true;
+      this.highLight();
+      if (this.type !== 'Functional') {
+        params.callback();
+        fireInterval = setInterval(params.callback, 75);
+      } else params.callback();
+    };
+
+    this.node.onmouseup = () => {
+      this.active = false;
+      this.highLight();
+      clearInterval(fireInterval);
+    };
+  }
+
+  lightLed() {
+    if (this.led) this.node.classList.add('active-led');
+    else this.node.classList.remove('active-led');
   }
 
   highLight() {
@@ -31,6 +54,15 @@ export default class Key extends Element {
     this.active = true;
     this.highLight();
   }
+
+  // keyClick() {
+  //   this.active = true;
+  //   this.highLight();
+  //   setTimeout(() => {
+  //     this.active = false;
+  //     this.highLight();
+  //   }, 200);
+  // }
 
   redrawCaption(lang, upCase) {
     if (this.type === 'Functional') return;

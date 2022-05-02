@@ -144,6 +144,8 @@ export const keys = {
     en: '/', enUp: '?', ru: '.', ruUp: ',', code: 'Slash',
   },
 
+  Space: { en: ' ', code: 'Space' },
+
   Backspace: { en: 'Backspace', code: 'Backspace' },
   Tab: { en: 'Tab', code: 'Tab' },
   Del: { en: 'Del', code: 'Delete' },
@@ -154,7 +156,6 @@ export const keys = {
   Ctrl: { en: 'Ctrl', code: 'ControlLeft' },
   CtrlRight: { en: 'Ctrl', code: 'ControlLeft' },
   Win: { en: 'Win', code: 'MetaLeft' },
-  Space: { en: 'Space', code: 'Space' },
   Alt: { en: 'Alt', code: 'AltLeft' },
   AltRight: { en: 'Alt', code: 'AltLeft' },
   ArrowUp: { en: '&#9650;', code: 'ArrowUp' },
@@ -172,7 +173,7 @@ export const params = {
   Enter: { style: 'key-long', type: 'Functional' },
   Shift: { style: 'key-long', type: 'Functional' },
   ShiftRight: { style: 'key-long-fixed', type: 'Functional' },
-  Space: { style: 'key-long', type: 'Functional' },
+  Space: { style: 'key-long' },
   Ctrl: { type: 'Functional' },
   CtrlRight: { type: 'Functional' },
   Win: { type: 'Functional' },

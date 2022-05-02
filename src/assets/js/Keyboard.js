@@ -3,6 +3,8 @@ import Element from './Element';
 import Key from './Key';
 
 export default class Keyboard {
+  buttons = {};
+
   keysLayout = [
     ['Tilda', '1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '-', '+', 'Backspace'],
     ['Tab', 'q', 'w', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p', '[', ']', 'BackSlash', 'Del'],
@@ -11,15 +13,11 @@ export default class Keyboard {
     ['Ctrl', 'Win', 'Alt', 'Space', 'AltRight', 'ArrowLeft', 'ArrowDown', 'ArrowRight', 'CtrlRight'],
   ];
 
-  holdAbleKeys = ['Shift', 'Ctrl', 'Alt', 'ShiftRight', 'AltRight', 'CtrlRight'];
-
-  buttons = {};
+  holdableKeys = ['Shift', 'Ctrl', 'Alt', 'ShiftRight', 'AltRight', 'CtrlRight'];
 
   holdable = { Shift: false, CapsLock: false };
 
   lang = 'en';
-
-  langs = ['en', 'ru'];
 
   constructor(app, lang = this.lang) {
     this.app = app;
@@ -31,13 +29,25 @@ export default class Keyboard {
           values: keys[item],
           styles: (params[item]) ? params[item].style : null,
           type: (params[item]) ? params[item].type : null,
-          callback: () => { app.playSound(item); },
+          // callback: () => { app.playSound(item); },
+          callback: () => { this.keyClick(keys[item].code); },
         };
 
         const button = new Key(line.node, { classes: 'key' }, buttonParams, lang);
         this.buttons[keys[item].code] = button;
       });
     });
+  }
+
+  handleFunctionalKey(code) {
+    // if (code === 'ShiftLeft') this.handleShift(false);
+    if (code === 'CapsLock') this.handleCapsLock();
+  }
+
+  keyClick(code) {
+    const button = this.buttons[code];
+    if (button.type !== 'Functional') this.app.sendKey(button.value);
+    else this.handleFunctionalKey(code);
   }
 
   keyDown(event) {
@@ -47,15 +57,22 @@ export default class Keyboard {
   }
 
   keyUp(event) {
-    this.buttons[event.code].keyUp();
+    const button = this.buttons[event.code];
+    button.keyUp();
 
     if (event.code === 'ShiftLeft') this.handleShift(false);
     if (event.code === 'CapsLock') this.handleCapsLock();
     if (event.code === 'MetaLeft') this.handleLang();
+
+    if (button.type !== 'Functional') this.app.sendKey(button.value);
+  }
+
+  handleHoldable(code, pressed) {
+    if (code === 'ShiftLeft') this.handleShift(pressed);
   }
 
   handleLang() {
-    this.lang = (this.lang === this.langs[0]) ? this.langs[1] : this.langs[0];
+    this.lang = (this.lang === 'en') ? 'ru' : 'en';
     this.redrawLayout();
   }
 
@@ -68,8 +85,8 @@ export default class Keyboard {
 
   handleCapsLock() {
     this.holdable.CapsLock = !this.holdable.CapsLock;
-    this.buttons.CapsLock.active = this.holdable.CapsLock;
-    this.buttons.CapsLock.highLight();
+    this.buttons.CapsLock.led = this.holdable.CapsLock;
+    this.buttons.CapsLock.lightLed();
 
     this.redrawLayout('CapsLock');
   }

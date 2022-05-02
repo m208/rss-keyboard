@@ -5,6 +5,7 @@ export default class TetxOutput {
     this.app = app;
     const textWrapper = new Element(document.body, { classes: 'output-wrapper' });
     const textarea = new Element(textWrapper.node, { classes: 'output', tag: 'textarea' });
-    textarea.node.rows = 15;
+    this.el = textarea.node;
+    this.el.rows = 15;
   }
 }

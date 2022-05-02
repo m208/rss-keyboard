@@ -37,6 +37,9 @@
         .active {
             background-color: aquamarine !important;
         }
+        .active-led {
+            border: 2px solid rgba(159, 25, 185, 0.4) !important;
+        }
 
         .key-long {
             max-width: unset !important;

@@ -7,7 +7,7 @@ import Title from './Title';
 export default class App {
   constructor() {
     const title = new Title('RSS Virtual Keyboard');
-    const output = new TextOutput(this);
+    this.output = new TextOutput(this);
     const keyboard = new Keyboard(this);
     const desc = new Description();
     this.audio = new Audio('/dist/sound/clc1.mp3');
@@ -18,6 +18,10 @@ export default class App {
     document.body.addEventListener('keyup', (e) => {
       keyboard.keyUp(e);
     });
+  }
+
+  sendKey(value) {
+    this.output.el.value += value;
   }
 
   playSound() {
