@@ -33,6 +33,8 @@ export default class Key extends Element {
       this.highLight();
       clearInterval(fireInterval);
     };
+
+    this.node.onmouseout = this.node.onmouseup;
   }
 
   lightLed() {
@@ -54,15 +56,6 @@ export default class Key extends Element {
     this.active = true;
     this.highLight();
   }
-
-  // keyClick() {
-  //   this.active = true;
-  //   this.highLight();
-  //   setTimeout(() => {
-  //     this.active = false;
-  //     this.highLight();
-  //   }, 200);
-  // }
 
   redrawCaption(lang, upCase) {
     if (this.type === 'Functional') return;
