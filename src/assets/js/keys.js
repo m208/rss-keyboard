@@ -1,3 +1,11 @@
+export const keysLayout = [
+  ['Tilda', '1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '-', '+', 'Backspace'],
+  ['Tab', 'q', 'w', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p', '[', ']', 'BackSlash', 'Del'],
+  ['CapsLock', 'a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l', 'Semicolon', 'Quote', 'Enter'],
+  ['Shift', 'z', 'x', 'c', 'v', 'b', 'n', 'm', ',', '.', '/', 'ArrowUp', 'ShiftRight'],
+  ['Ctrl', 'Win', 'Alt', 'Space', 'AltRight', 'ArrowLeft', 'ArrowDown', 'ArrowRight', 'CtrlRight'],
+];
+
 export const keys = {
   Tilda: {
     en: '`', enUp: '~', ru: 'ё', ruUp: 'Ё', code: 'Backquote',
@@ -144,7 +152,9 @@ export const keys = {
     en: '/', enUp: '?', ru: '.', ruUp: ',', code: 'Slash',
   },
 
-  Space: { en: ' ', code: 'Space' },
+  Space: {
+    en: ' ', enUp: ' ', ru: ' ', ruUp: ' ', code: 'Space',
+  },
 
   Backspace: { en: 'Backspace', code: 'Backspace' },
   Tab: { en: 'Tab', code: 'Tab' },

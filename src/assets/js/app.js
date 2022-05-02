@@ -8,15 +8,15 @@ export default class App {
   constructor() {
     const title = new Title('RSS Virtual Keyboard');
     this.output = new TextOutput(this);
-    const keyboard = new Keyboard(this);
+    const keyboard = new Keyboard(this, 'ru');
     const desc = new Description();
     this.audio = new Audio('/dist/sound/clc1.mp3');
 
     document.body.addEventListener('keydown', (e) => {
-      keyboard.keyDown(e);
+      keyboard.keyDown(e.code);
     });
     document.body.addEventListener('keyup', (e) => {
-      keyboard.keyUp(e);
+      keyboard.keyUp(e.code);
     });
   }
 
@@ -27,6 +27,10 @@ export default class App {
   sendCommand(name) {
     this.name = name; // temp
     console.log(name);
+  }
+
+  switchLang(lang) {
+    this.lang = lang; // temp
   }
 
   playSound() {

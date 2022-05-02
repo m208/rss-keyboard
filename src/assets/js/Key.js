@@ -22,10 +22,10 @@ export default class Key extends Element {
     this.node.onmousedown = () => {
       this.active = true;
       this.highLight();
+      params.callback();
       if (this.type !== 'Functional') {
-        params.callback();
         fireInterval = setInterval(params.callback, 75);
-      } else params.callback();
+      }
     };
 
     this.node.onmouseup = () => {
