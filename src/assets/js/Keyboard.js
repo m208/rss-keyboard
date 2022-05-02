@@ -17,6 +17,10 @@ export default class Keyboard {
     Shift: false, Control: false, Alt: false, CapsLock: false, // move CapsLock to different var?
   };
 
+  holdableKeys = ['ShiftLeft', 'ControlLeft', 'AltLeft', 'ShiftRight'];
+
+  langSwitchKeys = ['Control', 'Alt'];
+
   lang = 'en';
 
   constructor(app, lang = this.lang) {
@@ -46,21 +50,24 @@ export default class Keyboard {
       if (callFrom === 'keyClick') this.handleCapsLock();
     }
 
-    const holdableKeys = ['ShiftLeft', 'ControlLeft', 'AltLeft', 'ShiftRight'];
-    if (holdableKeys.includes(code)) {
+    if (this.holdableKeys.includes(code)) {
       const name = code.replace('Left', '').replace('Right', '');
       let state;
       if (callFrom === 'keyDown') state = true;
       if (callFrom === 'keyUp') state = false;
       if (callFrom === 'keyClick') state = !this.holdable[name];
+
       this.handleHoldableKey(code, state);
     }
 
-    // if (this.holdable.Control && this.holdable.Alt) {
-    //   let alreadySwitched = false;
-    //   if (!alreadySwitched) this.handleLang(this.lang);
-    //   alreadySwitched = true;
-    // }
+    if (callFrom === 'keyDown') {
+      const [key1, key2] = this.langSwitchKeys;
+      if (this.holdable[key1] && this.holdable[key2]) {
+        if (!this.handleLang.alreadySwitched) this.handleLang();
+        this.handleLang.alreadySwitched = true;
+      }
+    }
+    if (callFrom === 'keyUp') this.handleLang.alreadySwitched = false;
   }
 
   keyClick(code) {
