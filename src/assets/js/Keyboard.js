@@ -5,8 +5,6 @@ import Key from './Key';
 export default class Keyboard {
   buttons = {};
 
-  // holdableButtons = {};
-
   keysLayout = [
     ['Tilda', '1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '-', '+', 'Backspace'],
     ['Tab', 'q', 'w', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p', '[', ']', 'BackSlash', 'Del'],
@@ -15,10 +13,8 @@ export default class Keyboard {
     ['Ctrl', 'Win', 'Alt', 'Space', 'AltRight', 'ArrowLeft', 'ArrowDown', 'ArrowRight', 'CtrlRight'],
   ];
 
-  holdableKeys = ['Shift', 'Ctrl', 'Alt', 'ShiftRight', 'AltRight', 'CtrlRight'];
-
   holdable = {
-    Shift: false, Ctrl: false, Alt: false, CapsLock: false,
+    Shift: false, Control: false, Alt: false, CapsLock: false, // move CapsLock to different var?
   };
 
   lang = 'en';
@@ -38,13 +34,10 @@ export default class Keyboard {
         };
 
         const button = new Key(line.node, { classes: 'key' }, buttonParams, lang);
-        this.buttons[keys[item].code] = button;
+        const { code } = keys[item];
+        this.buttons[code] = button;
       });
     });
-
-    // this.holdableKeys.forEach((i) => {
-    //   this.holdableButtons[keys[i].code] = this.buttons[keys[i].code];
-    // });
   }
 
   handleFunctionalKeys(code, callFrom) {
@@ -53,68 +46,51 @@ export default class Keyboard {
       if (callFrom === 'keyClick') this.handleCapsLock();
     }
 
-    if (code === 'ShiftLeft' || code === 'ShiftRight') {
-      const handler = this.setupHandler(code, callFrom, this.handleShift);
-      handler();
-    }
-    if (code === 'ControlLeft') {
-      const handler = this.setupHandler(code, callFrom, this.handleCtrl);
-      handler();
-    }
-    if (code === 'AltLeft') {
-      const handler = this.setupHandler(code, callFrom, this.handleAlt);
-      handler();
+    const holdableKeys = ['ShiftLeft', 'ControlLeft', 'AltLeft', 'ShiftRight'];
+    if (holdableKeys.includes(code)) {
+      const name = code.replace('Left', '').replace('Right', '');
+      let state;
+      if (callFrom === 'keyDown') state = true;
+      if (callFrom === 'keyUp') state = false;
+      if (callFrom === 'keyClick') state = !this.holdable[name];
+      this.handleHoldableKey(code, state);
     }
 
-    if (this.holdable.Ctrl && this.holdable.Alt) this.handleLang();
+    // if (this.holdable.Control && this.holdable.Alt) {
+    //   let alreadySwitched = false;
+    //   if (!alreadySwitched) this.handleLang(this.lang);
+    //   alreadySwitched = true;
+    // }
   }
-
-  setupHandler(code, callFrom, callback) {
-    let state;
-    const name = code.replace('Left', '').replace('Right', '');
-    if (callFrom === 'keyDown') state = true;
-    if (callFrom === 'keyUp') state = false;
-    if (callFrom === 'keyClick') state = !this.holdable[name];
-    return callback.bind(this, state);
-  }
-
-  // handleHoldableKeys(code) {
-  //   const hButtons = this.holdableButtons;
-  //   if (!Object.keys(hButtons).includes(code)) return;
-  //   if (code === 'ShiftLeft' || code === 'ShiftRight') this.handleShift(true);
-  //   if (code === 'ControlLeft' || code === 'ControlRight') console.log('ctrl');
-  //   if (code === 'AltLeft' || code === 'AltRight') console.log('alt');
-  // }
 
   keyClick(code) {
     const button = this.buttons[code];
+
     if (button.type === 'Functional') {
       this.handleFunctionalKeys(code, 'keyClick');
-    } else this.app.sendKey(button.value);
+    } else if (button.type === 'Command') this.app.sendCommand(code);
+    else this.app.sendKey(button.value);
   }
 
   keyDown(event) {
     const button = this.buttons[event.code];
+    if (!button) return;
     button.keyDown();
-    if (button.type === 'Functional') {
-      // this.handleHoldableKeys(event.code);
 
+    if (button.type === 'Functional') {
       this.handleFunctionalKeys(event.code, 'keyDown');
-    }
-    // if (event.code === 'ShiftLeft') this.handleShift(true);
+    } else if (button.type === 'Command') this.app.sendCommand(event.code);
+    else this.app.sendKey(button.value);
   }
 
   keyUp(event) {
     const button = this.buttons[event.code];
+    if (!button) return;
     button.keyUp();
-
-    // if (event.code === 'ShiftLeft') this.handleShift(false);
-    // if (event.code === 'CapsLock') this.handleCapsLock();
-    // if (event.code === 'MetaLeft') this.handleLang();
 
     if (button.type === 'Functional') {
       this.handleFunctionalKeys(event.code, 'keyUp');
-    } else this.app.sendKey(button.value);
+    }
   }
 
   handleLang() {
@@ -122,25 +98,16 @@ export default class Keyboard {
     this.redrawLayout();
   }
 
-  handleCtrl(bool) {
-    if (this.holdable.Ctrl === bool) return;
-    this.holdable.Ctrl = bool;
-    // if (this.holdable.Ctrl && this.holdable.Alt) this.handleLang();
-  }
+  handleHoldableKey(code, state) {
+    const keyName = code.replace('Left', '').replace('Right', '');
+    if (this.holdable[keyName] === state) return;
+    this.holdable[keyName] = state;
 
-  handleAlt(bool) {
-    if (this.holdable.Alt === bool) return;
-    this.holdable.Alt = bool;
-  }
+    const buttonCode = `${keyName}Left`; // do the same for right bttns?
+    this.buttons[buttonCode].led = state;
+    this.buttons[buttonCode].lightLed();
 
-  handleShift(bool) {
-    if (this.holdable.Shift === bool) return;
-    this.holdable.Shift = bool;
-
-    this.buttons.ShiftLeft.led = this.holdable.Shift;
-    this.buttons.ShiftLeft.lightLed();
-
-    this.redrawLayout('Shift');
+    if (keyName === 'Shift') this.redrawLayout();
   }
 
   handleCapsLock() {
@@ -148,7 +115,7 @@ export default class Keyboard {
     this.buttons.CapsLock.led = this.holdable.CapsLock;
     this.buttons.CapsLock.lightLed();
 
-    this.redrawLayout('CapsLock');
+    this.redrawLayout();
   }
 
   redrawLayout() {

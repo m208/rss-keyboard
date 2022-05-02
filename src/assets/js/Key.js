@@ -58,7 +58,7 @@ export default class Key extends Element {
   }
 
   redrawCaption(lang, upCase) {
-    if (this.type === 'Functional') return;
+    if (this.type !== 'default') return;
 
     const prefix = `${lang}${upCase.Shift ? 'Up' : ''}`;
     if (upCase.CapsLock && upCase.Shift) {

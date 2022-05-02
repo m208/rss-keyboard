@@ -166,23 +166,26 @@ export const keys = {
 };
 
 export const params = {
-  Backspace: { style: 'key-long', type: 'Functional' },
-  Tab: { style: 'key-long', type: 'Functional' },
-  Del: { style: 'key-long', type: 'Functional' },
+  Space: { style: 'key-long' },
+
+  Backspace: { style: 'key-long', type: 'Command' },
+  Tab: { style: 'key-long', type: 'Command' },
+  Del: { style: 'key-long', type: 'Command' },
+  Enter: { style: 'key-long', type: 'Command' },
+
   CapsLock: { style: 'key-long', type: 'Functional' },
-  Enter: { style: 'key-long', type: 'Functional' },
   Shift: { style: 'key-long', type: 'Functional' },
   ShiftRight: { style: 'key-long-fixed', type: 'Functional' },
-  Space: { style: 'key-long' },
+
   Ctrl: { type: 'Functional' },
   CtrlRight: { type: 'Functional' },
   Win: { type: 'Functional' },
   Alt: { type: 'Functional' },
   AltRight: { type: 'Functional' },
 
-  ArrowUp: { type: 'Functional' },
-  ArrowLeft: { type: 'Functional' },
-  ArrowDown: { type: 'Functional' },
-  ArrowRight: { type: 'Functional' },
+  ArrowUp: { type: 'Command' },
+  ArrowLeft: { type: 'Command' },
+  ArrowDown: { type: 'Command' },
+  ArrowRight: { type: 'Command' },
 
 };

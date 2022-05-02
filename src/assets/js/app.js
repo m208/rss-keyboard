@@ -24,6 +24,11 @@ export default class App {
     this.output.el.value += value;
   }
 
+  sendCommand(name) {
+    this.name = name; // temp
+    console.log(name);
+  }
+
   playSound() {
     this.audio.play();
   }
