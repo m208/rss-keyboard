@@ -13,20 +13,26 @@ export default class App {
     this.audio = new Audio('/dist/sound/clc1.mp3');
 
     document.body.addEventListener('keydown', (e) => {
+      const navKeys = ['ArrowUp', 'ArrowLeft', 'ArrowDown', 'ArrowRight'];
+      e.preventDefault();
+      if (navKeys.includes(e.code)) {
+        // console.log(e);
+      }
+
       keyboard.keyDown(e.code);
     });
     document.body.addEventListener('keyup', (e) => {
+      e.preventDefault();
       keyboard.keyUp(e.code);
     });
   }
 
   sendKey(value) {
-    this.output.el.value += value;
+    this.output.sendKey(value);
   }
 
   sendCommand(name) {
-    this.name = name; // temp
-    console.log(name);
+    this.output.sendCommand(name);
   }
 
   switchLang(lang) {
