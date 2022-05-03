@@ -18,19 +18,24 @@ export default class Key extends Element {
     this.node.innerHTML = this.value;
 
     let fireInterval = null;
+    let timeout = null;
     // setInterval is used to repeately fire key on mousedown
+    // setTimeout for delay after first keypress
     this.node.onmousedown = () => {
       this.active = true;
       this.highLight();
       params.callback();
       if (this.type !== 'Functional') {
-        fireInterval = setInterval(params.callback, 75);
+        timeout = setTimeout(() => {
+          fireInterval = setInterval(params.callback, 75);
+        }, 500);
       }
     };
 
     this.node.onmouseup = () => {
       this.active = false;
       this.highLight();
+      clearTimeout(timeout);
       clearInterval(fireInterval);
     };
 
