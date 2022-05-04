@@ -62,11 +62,12 @@ export default class TextMatrix {
   }
 
   calcPos(value, pos, direction) {
+    if (!value) return pos;
     this.calcMatrix(value);
 
     let currentPos = pos;
     let result = currentPos;
-    // console.log(`caret.start ${currentPos}`, `value ${value[currentPos]}`);
+    // console.log(`caret.start: ${currentPos}`, `value: ${value[currentPos]}`);
 
     let found = false;
     while (!found) {
