@@ -7,7 +7,7 @@ export default class Description {
     const desc1 = new Element(wrapper.node, { classes: 'description', tag: 'p' });
     const desc2 = new Element(wrapper.node, { classes: 'description', tag: 'p' });
 
-    desc1.node.textContent = 'Keyboard was created on Windows';
+    desc1.node.textContent = 'Keyboard was created in Windows';
     desc2.node.textContent = 'Switch language with left Ctrl + left Alt';
   }
 }
