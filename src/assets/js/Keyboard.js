@@ -11,7 +11,7 @@ export default class Keyboard {
 
   holdableKeys = ['ShiftLeft', 'ControlLeft', 'AltLeft', 'ShiftRight'];
 
-  langSwitchKeys = ['Control', 'Alt'];
+  langSwitchKeys = ['ControlLeft', 'AltLeft'];
 
   constructor(app, lang) {
     this.app = app;
@@ -39,8 +39,9 @@ export default class Keyboard {
 
     if (button.type === 'Functional') {
       this.handleFunctionalKeys(code, 'keyClick');
-    } else if (button.type === 'Command') this.app.sendCommand(code);
-    else this.app.sendKey(button.value);
+    } else if (button.type === 'Command') {
+      this.app.sendCommand(code);
+    } else this.app.sendKey(button.value);
   }
 
   keyDown(code) {
@@ -50,8 +51,9 @@ export default class Keyboard {
 
     if (button.type === 'Functional') {
       this.handleFunctionalKeys(code, 'keyDown');
-    } else if (button.type === 'Command') this.app.sendCommand(code);
-    else this.app.sendKey(button.value);
+    } else if (button.type === 'Command') {
+      this.app.sendCommand(code);
+    } else this.app.sendKey(button.value);
   }
 
   keyUp(code) {
@@ -79,14 +81,18 @@ export default class Keyboard {
       this.handleHoldableKey(code, state);
     }
 
-    if (callFrom === 'keyDown') {
-      const [key1, key2] = this.langSwitchKeys;
-      if (this.holdable[key1] && this.holdable[key2]) {
-        if (!this.switchLang.alreadySwitched) this.switchLang();
-        this.switchLang.alreadySwitched = true;
+    if (this.langSwitchKeys.includes(code)) {
+      if (callFrom !== 'keyUp') {
+        const [key1, key2] = this.langSwitchKeys.map((i) => i.replace('Left', '').replace('Right', ''));
+
+        if (this.holdable[key1] && this.holdable[key2]) {
+          if (!this.switchLang.alreadySwitched) this.switchLang();
+          this.switchLang.alreadySwitched = true;
+        } else if (callFrom === 'keyClick') this.switchLang.alreadySwitched = false;
       }
+
+      if (callFrom === 'keyUp') this.switchLang.alreadySwitched = false;
     }
-    if (callFrom === 'keyUp') this.switchLang.alreadySwitched = false;
   }
 
   handleHoldableKey(code, state) {
