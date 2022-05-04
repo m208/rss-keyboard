@@ -1,20 +1,23 @@
+import CanvaMeasurer from './CanvaMeasurer';
 import Element from './Element';
+import TextMatrix from './TextMatrix';
 
 export default class TetxOutput {
-  value = '';
+  style = { font: 'Courier', fontSize: '16px', padding: '8px' };
 
   constructor(app) {
     this.app = app;
     const textWrapper = new Element(document.body, { classes: 'output-wrapper' });
-    const textarea = new Element(textWrapper.node, { classes: 'output', tag: 'textarea' });
+    const textarea = new Element(textWrapper.node, { classes: 'output2', tag: 'textarea' });
     this.el = textarea.node;
     this.el.rows = 15;
+    this.el.cols = 40;
     this.el.readonly = true;
-    // this.el.onkeydown = (e) => { console.log('onkey ', e.code); };
-  }
 
-  focus() {
-    this.el.focus();
+    this.el.style = `font-family: ${this.style.font}; font-size: ${this.style.fontSize}; padding: ${this.style.padding};`;
+    this.el.value = 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. \nLorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, \nand more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.';
+
+    this.matrix = new TextMatrix(this.el, this.style);
   }
 
   sendKey(val, caret = this.getCaretPos()) {
@@ -37,13 +40,7 @@ export default class TetxOutput {
     const caret = this.getCaretPos();
 
     if (name === 'Tab') this.sendKey('    ');
-    if (name === 'Enter') this.sendKey('\r');
-
-    const navKeys = ['ArrowUp', 'ArrowLeft', 'ArrowDown', 'ArrowRight'];
-
-    // if (navKeys.includes(name)) {
-
-    // }
+    if (name === 'Enter') this.sendKey('\n');
 
     if (name === 'Backspace') {
       if ((caret.end - caret.start) > 0) this.sendKey('');
@@ -54,7 +51,27 @@ export default class TetxOutput {
       else this.sendKey('', { start: caret.start, end: caret.end + 1 });
     }
 
-    // this.outputValue(value);
+    const navKeys = ['ArrowUp', 'ArrowLeft', 'ArrowDown', 'ArrowRight'];
+
+    if (navKeys.includes(name)) {
+      let pos = caret.start;
+
+      if (name === 'ArrowUp') {
+        pos = this.matrix.calcPos(value, caret.start, 'up');
+      }
+      if (name === 'ArrowDown') {
+        pos = this.matrix.calcPos(value, caret.start, 'down');
+      }
+      if (name === 'ArrowLeft') {
+        pos = caret.start - 1;
+        pos = pos >= 0 ? pos : 0;
+      }
+      if (name === 'ArrowRight') {
+        pos = caret.start + 1;
+      }
+      setTimeout(() => { this.focus(); }, 50);
+      this.setCaretPos(pos);
+    }
   }
 
   getCaretPos() {
@@ -68,6 +85,10 @@ export default class TetxOutput {
 
   getValue() {
     return this.el.value;
+  }
+
+  focus() {
+    this.el.focus();
   }
 
   outputValue(value, caretPos) {
