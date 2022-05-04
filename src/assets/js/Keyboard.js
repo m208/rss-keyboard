@@ -9,7 +9,7 @@ export default class Keyboard {
     Shift: false, Control: false, Alt: false, CapsLock: false, // move CapsLock to different var?
   };
 
-  holdableKeys = ['ShiftLeft', 'ControlLeft', 'AltLeft', 'ShiftRight'];
+  holdableKeys = ['ShiftLeft', 'ControlLeft', 'AltLeft', 'ShiftRight', 'ControlRight', 'AltRight'];
 
   langSwitchKeys = ['ControlLeft', 'AltLeft'];
 
@@ -100,9 +100,11 @@ export default class Keyboard {
     if (this.holdable[keyName] === state) return;
     this.holdable[keyName] = state;
 
-    const buttonCode = `${keyName}Left`; // do the same for right bttns?
-    this.buttons[buttonCode].led = state;
-    this.buttons[buttonCode].lightLed();
+    const pair = [`${keyName}Left`, `${keyName}Right`];
+    pair.forEach((key) => {
+      this.buttons[key].led = state;
+      this.buttons[key].lightLed();
+    });
 
     if (keyName === 'Shift') this.redrawLayout();
   }
