@@ -8,10 +8,9 @@ export default class TetxOutput {
   constructor(app) {
     this.app = app;
     const textWrapper = new Element(document.body, { classes: 'output-wrapper' });
-    const textarea = new Element(textWrapper.node, { classes: 'output2', tag: 'textarea' });
+    const textarea = new Element(textWrapper.node, { classes: 'output', tag: 'textarea' });
     this.el = textarea.node;
-    this.el.rows = 15;
-    this.el.cols = 40;
+    this.el.rows = 14;
     this.el.readonly = true;
 
     this.el.style = `font-family: ${this.style.font}; font-size: ${this.style.fontSize}; padding: ${this.style.padding};`;

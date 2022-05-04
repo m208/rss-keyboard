@@ -168,11 +168,10 @@ export const keys = {
   Win: { en: 'Win', code: 'MetaLeft' },
   Alt: { en: 'Alt', code: 'AltLeft' },
   AltRight: { en: 'Alt', code: 'AltRight' },
-  ArrowUp: { en: '&#9650;', code: 'ArrowUp' },
-  ArrowLeft: { en: '&#9668;', code: 'ArrowLeft' },
-  ArrowDown: { en: '&#9660;', code: 'ArrowDown' },
-  ArrowRight: { en: '&#9658;', code: 'ArrowRight' },
-
+  ArrowUp: { en: '↑', code: 'ArrowUp' },
+  ArrowLeft: { en: '←', code: 'ArrowLeft' },
+  ArrowDown: { en: '↓', code: 'ArrowDown' },
+  ArrowRight: { en: '→', code: 'ArrowRight' },
 };
 
 export const params = {
