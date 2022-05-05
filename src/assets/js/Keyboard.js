@@ -35,6 +35,7 @@ export default class Keyboard {
   }
 
   keyClick(code) {
+    this.app.playSound();
     const button = this.buttons[code];
 
     if (button.type === 'Functional') {
@@ -45,6 +46,7 @@ export default class Keyboard {
   }
 
   keyDown(code) {
+    this.app.playSound();
     const button = this.buttons[code];
     if (!button) return;
     button.keyDown();
@@ -129,5 +131,21 @@ export default class Keyboard {
     Object.values(this.buttons).forEach((button) => {
       button.redrawCaption(this.lang, upperCase);
     });
+  }
+
+  focusOut() {
+    Object.keys(this.holdable).forEach((key) => {
+      this.holdable[key] = false;
+    });
+
+    Object.keys(this.buttons).forEach((key) => {
+      const bttn = this.buttons[key];
+      bttn.active = false;
+      bttn.led = false;
+      bttn.highLight();
+      bttn.lightLed();
+    });
+
+    this.redrawLayout();
   }
 }
