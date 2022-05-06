@@ -1,6 +1,7 @@
 import '../scss/main.scss';
 import App from './App';
 
+let app;
 document.addEventListener('DOMContentLoaded', () => {
-  const app = new App();
+  window.app = new App(); // FOR DEBUG PURPOSES
 });
