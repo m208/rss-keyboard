@@ -37,7 +37,7 @@ export default class TetxOutput {
     const value = this.getValue();
     const caret = this.getCaretPos();
 
-    if (name === 'Tab') this.sendKey('    ');
+    if (name === 'Tab') this.sendKey('\t');
 
     if (name === 'Enter') this.sendKey('\n');
 
