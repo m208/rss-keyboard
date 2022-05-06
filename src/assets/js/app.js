@@ -3,6 +3,7 @@ import Element from './Element';
 import Keyboard from './Keyboard';
 import TextOutput from './TetxOutput';
 import Title from './Title';
+import { keys } from './keys';
 
 export default class App {
   constructor() {
@@ -13,13 +14,18 @@ export default class App {
     const desc = new Description();
     this.audio = new Audio('./sound/clc1.mp3');
 
+    const keysInUse = Object.values(keys).map((el) => el.code);
     document.body.addEventListener('keydown', (e) => {
-      e.preventDefault();
-      keyboard.keyDown(e.code);
+      if (keysInUse.includes(e.code)) {
+        e.preventDefault();
+        keyboard.keyDown(e.code);
+      }
     });
     document.body.addEventListener('keyup', (e) => {
-      e.preventDefault();
-      keyboard.keyUp(e.code);
+      if (keysInUse.includes(e.code)) {
+        e.preventDefault();
+        keyboard.keyUp(e.code);
+      }
     });
 
     window.addEventListener('blur', (e) => { keyboard.focusOut(); });
