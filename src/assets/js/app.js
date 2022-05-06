@@ -39,6 +39,10 @@ export default class App {
     this.output.sendCommand(name);
   }
 
+  fosusOutput() {
+    this.output.focus();
+  }
+
   switchLang(lang) {
     this.storage('lang', lang);
   }

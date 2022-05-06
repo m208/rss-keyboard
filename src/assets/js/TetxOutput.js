@@ -69,7 +69,6 @@ export default class TetxOutput {
       if (name === 'ArrowRight') {
         pos = caret.start + 1;
       }
-      setTimeout(() => { this.focus(); }, 50);
       this.setCaretPos(pos);
     }
   }
@@ -94,7 +93,5 @@ export default class TetxOutput {
   outputValue(value, caretPos = null) {
     this.el.value = value;
     if (caretPos) this.setCaretPos(caretPos);
-
-  //  setTimeout(() => { this.focus(); }, 50);
   }
 }

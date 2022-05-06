@@ -24,10 +24,10 @@ export default class Key extends Element {
     this.node.onmousedown = () => {
       this.active = true;
       this.highLight();
-      params.callback();
+      params.mouseDown();
       if (this.type !== 'Functional') {
         timeout = setTimeout(() => {
-          fireInterval = setInterval(params.callback, 75);
+          fireInterval = setInterval(params.mouseDown, 75);
         }, 500);
       }
     };
@@ -37,6 +37,7 @@ export default class Key extends Element {
       this.highLight();
       clearTimeout(timeout);
       clearInterval(fireInterval);
+      params.mouseUp();
     };
 
     this.node.onmouseout = this.node.onmouseup;

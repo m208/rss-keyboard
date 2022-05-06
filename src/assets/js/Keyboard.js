@@ -24,7 +24,8 @@ export default class Keyboard {
           values: keys[key],
           styles: (params[key]) ? params[key].style : null,
           type: (params[key]) ? params[key].type : null,
-          callback: () => { this.keyClick(keys[key].code); },
+          mouseDown: () => { this.keyClick(keys[key].code); },
+          mouseUp: () => { this.keyClickUp(); },
         };
 
         const button = new Key(line.node, { classes: 'key' }, buttonParams, lang);
@@ -32,6 +33,10 @@ export default class Keyboard {
         this.buttons[code] = button;
       });
     });
+  }
+
+  keyClickUp() {
+    this.app.fosusOutput();
   }
 
   keyClick(code) {
