@@ -6,7 +6,7 @@ export default class Keyboard {
   buttons = {};
 
   holdable = {
-    Shift: false, Control: false, Alt: false, CapsLock: false, // move CapsLock to different var?
+    Shift: false, Control: false, Alt: false, CapsLock: false,
   };
 
   holdableKeys = ['ShiftLeft', 'ControlLeft', 'AltLeft', 'ShiftRight', 'ControlRight', 'AltRight'];
@@ -40,18 +40,18 @@ export default class Keyboard {
   }
 
   keyClick(code) {
-    this.app.playSound();
     const button = this.buttons[code];
 
     if (button.type === 'Functional') {
       this.handleFunctionalKeys(code, 'keyClick');
     } else if (button.type === 'Command') {
       this.app.sendCommand(code);
-    } else this.app.sendKey(button.value);
+    } else {
+      this.app.sendKey(button.value);
+    }
   }
 
   keyDown(code) {
-    this.app.playSound();
     const button = this.buttons[code];
     if (!button) return;
     button.keyDown();
@@ -60,7 +60,9 @@ export default class Keyboard {
       this.handleFunctionalKeys(code, 'keyDown');
     } else if (button.type === 'Command') {
       this.app.sendCommand(code);
-    } else this.app.sendKey(button.value);
+    } else {
+      this.app.sendKey(button.value);
+    }
   }
 
   keyUp(code) {
@@ -127,7 +129,6 @@ export default class Keyboard {
   switchLang() {
     this.lang = (this.lang === 'en') ? 'ru' : 'en';
     this.redrawLayout();
-
     this.app.switchLang(this.lang);
   }
 

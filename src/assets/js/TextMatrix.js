@@ -10,7 +10,6 @@ export default class TextMatrix {
   findPos(value, pos, direction) {
     if (!value) return pos;
     const lines = this.slpitLines(value);
-    // console.log('lines ', lines);
 
     let curLineIndex = lines.length - 1;
     lines.forEach((line, index) => {
@@ -35,7 +34,6 @@ export default class TextMatrix {
     const s = window.getComputedStyle(this.el);
     const width = this.el.offsetWidth - parseFloat(s.paddingLeft) - parseFloat(s.paddingRight);
     const charSize = this.cmeasurer.measureText('0'); // can be a constante
-    // console.log('w: ', width, 'maxChars:', maxChars, '% ', width / charSize);
     return Math.trunc(width / charSize);
   }
 

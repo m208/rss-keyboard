@@ -1,5 +1,4 @@
 import Description from './Description';
-import Element from './Element';
 import Keyboard from './Keyboard';
 import TextOutput from './TetxOutput';
 import Title from './Title';
@@ -7,28 +6,28 @@ import { keys } from './keys';
 
 export default class App {
   constructor() {
-    const lang = this.storage('lang') ?? 'en';
-    const title = new Title('RSS Virtual Keyboard');
+    this.lang = this.storage('lang') ?? 'en';
+    this.title = new Title('RSS Virtual Keyboard');
     this.output = new TextOutput(this);
-    const keyboard = new Keyboard(this, lang);
-    const desc = new Description();
-    this.audio = new Audio('./sound/clc1.mp3');
+    this.keyboard = new Keyboard(this, this.lang);
+    this.desc = new Description();
+    this.clickSound = new Audio('./sound/clc1.mp3');
 
     const keysInUse = Object.values(keys).map((el) => el.code);
     document.body.addEventListener('keydown', (e) => {
       if (keysInUse.includes(e.code)) {
         e.preventDefault();
-        keyboard.keyDown(e.code);
+        this.keyboard.keyDown(e.code);
       }
     });
     document.body.addEventListener('keyup', (e) => {
       if (keysInUse.includes(e.code)) {
         e.preventDefault();
-        keyboard.keyUp(e.code);
+        this.keyboard.keyUp(e.code);
       }
     });
 
-    window.addEventListener('blur', (e) => { keyboard.focusOut(); });
+    window.addEventListener('blur', () => { this.keyboard.focusOut(); });
   }
 
   storage(key, data = null) {
@@ -54,6 +53,6 @@ export default class App {
   }
 
   playSound() {
-    this.audio.play();
+    this.clickSound.play();
   }
 }

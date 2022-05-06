@@ -1,7 +1,7 @@
 import Element from './Element';
 
 export default class Description {
-  constructor(text) {
+  constructor() {
     const wrapper = new Element(document.body, { classes: 'description-wrapper' });
 
     const desc1 = new Element(wrapper.node, { classes: 'description', tag: 'p' });

@@ -14,8 +14,6 @@ export default class TetxOutput {
 
     this.el.style = `font-family: ${this.style.font}; font-size: ${this.style.fontSize}; padding: ${this.style.padding};`;
     this.matrix = new TextMatrix(this.el, this.style);
-
-    this.el.onfocus = (e) => { e.preventDefault(); };
   }
 
   sendKey(val, caret = this.getCaretPos()) {
@@ -31,13 +29,14 @@ export default class TetxOutput {
     const newCarPos = before.length + val.length;
 
     this.outputValue(value, newCarPos);
+    this.app.playSound();
   }
 
   sendCommand(name) {
     const value = this.getValue();
     const caret = this.getCaretPos();
 
-    if (name === 'Tab') this.sendKey('\t');
+    if (name === 'Tab') this.sendKey('    ');
 
     if (name === 'Enter') this.sendKey('\n');
 
@@ -70,6 +69,7 @@ export default class TetxOutput {
         pos = caret.start + 1;
       }
       this.setCaretPos(pos);
+      this.app.playSound();
     }
   }
 
