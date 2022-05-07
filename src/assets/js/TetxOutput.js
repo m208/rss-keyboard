@@ -10,7 +10,7 @@ export default class TetxOutput {
     const textarea = new Element(textWrapper.node, { classes: 'output', tag: 'textarea' });
     this.el = textarea.node;
     this.el.rows = 14;
-    this.el.readonly = true;
+    this.el.autofocus = true;
 
     this.el.style = `font-family: ${this.style.font}; font-size: ${this.style.fontSize}; padding: ${this.style.padding};`;
     this.matrix = new TextMatrix(this.el, this.style);
