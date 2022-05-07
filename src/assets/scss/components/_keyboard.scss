@@ -19,7 +19,7 @@
         gap: 8px;
 
         .key {
-            @include flex(column, center, center);
+            @include flex(row, center, center);
             transition: 0.25s ease-out all;
             color: #5c5056;
             border-radius: 5px;
@@ -35,6 +35,21 @@
 
             &:hover {
                 background-color: #e5e3e4;
+            }
+
+            .secondary {
+                color: #8b878f;
+                padding-left: 5px;
+                margin-top: -25px;
+                font-size: 12px;
+                width: 20%;
+            }
+            .primary {
+                @include flex(row, center, center);
+                width: 33%;
+            }
+            .spacer {
+                width: 33%;
             }
         }
         .active {

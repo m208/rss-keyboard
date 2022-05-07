@@ -15,7 +15,15 @@ export default class Key extends Element {
     if (params.styles) this.node.classList.add(params.styles);
 
     this.value = params.values[lang] || params.values.en;
-    this.node.innerHTML = this.value;
+
+    if (this.type === 'default') {
+      this.secondary = new Element(this.node, { classes: 'secondary', tag: 'div' });
+      this.primary = new Element(this.node, { classes: 'primary', tag: 'div' });
+      this.spacer = new Element(this.node, { classes: 'spacer', tag: 'div' });
+      this.secondary.value = this.values[`${lang}Up`];
+    }
+
+    this.renderValues();
 
     let fireInterval = null;
     let timeout = null;
@@ -75,6 +83,23 @@ export default class Key extends Element {
       this.value = this.values[prefix];
     }
 
-    this.node.innerText = this.value;
+    const prefixSec = `${lang}${!upCase.Shift ? 'Up' : ''}`;
+    this.secondary.value = this.values[prefixSec];
+
+    this.renderValues();
+  }
+
+  renderValues() {
+    if (this.type === 'default') {
+      this.secondary.node.innerHTML = this.isMultiCaption() ? this.secondary.value : '';
+      this.primary.node.innerHTML = this.value;
+    } else this.node.innerHTML = this.value;
+  }
+
+  isMultiCaption() {
+    if (this.secondary) {
+      return (this.value.toUpperCase() !== this.secondary.value.toUpperCase());
+    }
+    return false;
   }
 }
