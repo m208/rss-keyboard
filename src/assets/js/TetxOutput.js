@@ -4,12 +4,15 @@ import TextMatrix from './TextMatrix';
 export default class TetxOutput {
   style = { font: 'Courier', fontSize: '16px', padding: '8px' };
 
+  insertions = [];
+
   constructor(app) {
     this.app = app;
     const textWrapper = new Element(document.body, { classes: 'output-wrapper' });
-    const textarea = new Element(textWrapper.node, { classes: 'output', tag: 'textarea' });
+    const textarea = new Element(textWrapper.node, { classes: 'output2', tag: 'textarea' });
     this.el = textarea.node;
     this.el.rows = 14;
+    this.el.cols = 98;
     this.el.autofocus = true;
 
     this.el.style = `font-family: ${this.style.font}; font-size: ${this.style.fontSize}; padding: ${this.style.padding};`;
@@ -36,6 +39,8 @@ export default class TetxOutput {
     const value = this.getValue();
     const caret = this.getCaretPos();
 
+    if (name === 'paste') console.log('PASTE');
+
     if (name === 'Tab') this.sendKey('    ');
 
     if (name === 'Enter') this.sendKey('\n');
@@ -56,25 +61,45 @@ export default class TetxOutput {
       let pos = caret.start;
 
       if (name === 'ArrowUp') {
-        pos = this.matrix.findPos(value, caret.start, 'up');
+        const formattedVal = this.matrix.getData(value, caret.start, 'up');
+        // console.log(value);
+        // console.log(formattedVal.text);
+        this.insertions = formattedVal.insertions;
+        this.outputValue(formattedVal.text, formattedVal.pos);
+        // pos = this.matrix.findPos(value, caret.start, 'up');
       }
       if (name === 'ArrowDown') {
-        pos = this.matrix.findPos(value, caret.start, 'down');
+        const formattedVal = this.matrix.getData(value, caret.start, 'down');
+        // console.log(value);
+        // console.log(formattedVal.text);
+        this.insertions = formattedVal.insertions;
+        this.outputValue(formattedVal.text, formattedVal.pos);
+
+        // pos = this.matrix.findPos(value, caret.start, 'down');
       }
       if (name === 'ArrowLeft') {
         pos = caret.start - 1;
         pos = pos >= 0 ? pos : 0;
+        this.setCaretPos(pos);
       }
       if (name === 'ArrowRight') {
         pos = caret.start + 1;
+        this.setCaretPos(pos);
       }
-      this.setCaretPos(pos);
+      // this.setCaretPos(pos);
       this.app.playSound();
     }
   }
 
   getCaretPos() {
-    return { start: this.el.selectionStart, end: this.el.selectionEnd };
+    let [start, end] = [this.el.selectionStart, this.el.selectionEnd];
+
+    this.insertions.forEach((i) => {
+      start = start > i ? start - 1 : start;
+      end = end > i ? end - 1 : end;
+    });
+
+    return { start, end };
   }
 
   setCaretPos(index) {
@@ -83,7 +108,17 @@ export default class TetxOutput {
   }
 
   getValue() {
-    return this.el.value;
+    const value = this.el.value.split('');
+
+    const ins = this.insertions.reverse();
+    // console.log('ins ', this.insertions);
+
+    ins.forEach((i) => {
+      value.splice(i, 1);
+    });
+
+    this.insertions = [];
+    return value.join('');
   }
 
   focus() {
@@ -92,6 +127,11 @@ export default class TetxOutput {
 
   outputValue(value, caretPos = null) {
     this.el.value = value;
-    if (caretPos) this.setCaretPos(caretPos);
+    console.log(caretPos);
+    // setTimeout(() => {
+
+    // }, 50);
+
+    if (caretPos !== null) this.setCaretPos(caretPos);
   }
 }

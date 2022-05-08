@@ -60,6 +60,8 @@ export default class Keyboard {
       this.handleFunctionalKeys(code, 'keyDown');
     } else if (button.type === 'Command') {
       this.app.sendCommand(code);
+    } else if (this.holdable.Control && code === 'KeyV') {
+      this.app.sendCommand('paste');
     } else {
       this.app.sendKey(button.value);
     }
