@@ -12,6 +12,7 @@ export default class App {
     this.keyboard = new Keyboard(this, this.lang);
     this.desc = new Description();
     this.clickSound = new Audio('./sound/clc1.mp3');
+    this.clipboard = navigator.clipboard;
 
     const keysInUse = Object.values(keys).map((el) => el.code);
     document.body.addEventListener('keydown', (e) => {
@@ -34,6 +35,20 @@ export default class App {
     if (!data) return JSON.parse(localStorage.getItem(key));
     localStorage.setItem(key, JSON.stringify(data));
     return this.lang;
+  }
+
+  async clipboardAction(data = null) {
+    if (data !== null) {
+      const blob = new Blob([data], { type: 'text/plain' });
+      const { ClipboardItem } = window;
+      this.clipboard.write([new ClipboardItem({ [blob.type]: blob })]);
+      return false;
+    }
+    const permission = await navigator.permissions.query({ name: 'clipboard-read' });
+    if (permission.state === 'denied') return '';
+
+    const clipboardText = await this.clipboard.readText();
+    return clipboardText;
   }
 
   sendKey(value) {
