@@ -92,6 +92,6 @@ export default class TetxOutput {
 
   outputValue(value, caretPos = null) {
     this.el.value = value;
-    if (caretPos) this.setCaretPos(caretPos);
+    if (caretPos != null) this.setCaretPos(caretPos);
   }
 }

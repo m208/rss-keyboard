@@ -44,7 +44,6 @@ module.exports = (env, argv) => {
       port: '3000',
       open: true,
       hot: true,
-      // inline: true,
     },
     plugins: plugins(),
     module: {

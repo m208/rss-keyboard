@@ -33,7 +33,7 @@ export default class App {
   storage(key, data = null) {
     if (!data) return JSON.parse(localStorage.getItem(key));
     localStorage.setItem(key, JSON.stringify(data));
-    return this; // airbnb wants it
+    return this.lang;
   }
 
   sendKey(value) {

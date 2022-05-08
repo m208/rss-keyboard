@@ -33,7 +33,7 @@ export default class TextMatrix {
   getMaxChars() {
     const s = window.getComputedStyle(this.el);
     const width = this.el.offsetWidth - parseFloat(s.paddingLeft) - parseFloat(s.paddingRight);
-    const charSize = this.cmeasurer.measureText('0'); // can be a constante
+    const charSize = this.cmeasurer.measureText('0');
     return Math.trunc(width / charSize);
   }
 
