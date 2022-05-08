@@ -1,0 +1,11 @@
+.description-wrapper {
+    @include flex(column, center, center);
+    margin: 0 auto;
+    padding: 1em 0;
+
+    .description {
+        text-align: center;
+        color: #484848;
+        margin-bottom: 0.5em;
+    }
+}
