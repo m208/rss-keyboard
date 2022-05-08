@@ -4,10 +4,15 @@ export default class Description {
   constructor() {
     const wrapper = new Element(document.body, { classes: 'description-wrapper' });
 
-    const desc1 = new Element(wrapper.node, { classes: 'description', tag: 'p' });
-    const desc2 = new Element(wrapper.node, { classes: 'description', tag: 'p' });
+    const text = [
+      'Keyboard was created in Windows',
+      'Switch language with left Ctrl + left Alt',
+      'Hotkeys: Ctrl + A, Ctrl + C, Ctrl + V, Ctrl + X',
+    ];
 
-    desc1.node.textContent = 'Keyboard was created in Windows';
-    desc2.node.textContent = 'Switch language with left Ctrl + left Alt';
+    text.forEach((item) => {
+      const desc = new Element(wrapper.node, { classes: 'description', tag: 'p' });
+      desc.node.textContent = item;
+    });
   }
 }
