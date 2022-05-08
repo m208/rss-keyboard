@@ -13,6 +13,8 @@ export default class Keyboard {
 
   langSwitchKeys = ['ControlLeft', 'AltLeft'];
 
+  hotkeysControl = ['A', 'C', 'V', 'X'];
+
   constructor(app, lang) {
     this.app = app;
     this.lang = lang;
@@ -46,6 +48,9 @@ export default class Keyboard {
       this.handleFunctionalKeys(code, 'keyClick');
     } else if (button.type === 'Command') {
       this.app.sendCommand(code);
+    } else if (this.holdable.Control) {
+      const letter = button.value.toUpperCase(); // with current lang
+      if (this.hotkeysControl.includes(letter)) this.app.sendCommand(`Control+${letter}`);
     } else {
       this.app.sendKey(button.value);
     }
@@ -60,6 +65,9 @@ export default class Keyboard {
       this.handleFunctionalKeys(code, 'keyDown');
     } else if (button.type === 'Command') {
       this.app.sendCommand(code);
+    } else if (this.holdable.Control) {
+      const letter = code.replace('Key', ''); // with any lang
+      if (this.hotkeysControl.includes(letter)) this.app.sendCommand(`Control+${letter}`);
     } else {
       this.app.sendKey(button.value);
     }

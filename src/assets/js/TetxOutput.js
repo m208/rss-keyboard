@@ -32,7 +32,7 @@ export default class TetxOutput {
     this.app.playSound();
   }
 
-  sendCommand(name) {
+  async sendCommand(name) {
     const value = this.getValue();
     const caret = this.getCaretPos();
 
@@ -48,6 +48,25 @@ export default class TetxOutput {
     if (name === 'Delete') {
       if ((caret.end - caret.start) > 0) this.sendKey('');
       else this.sendKey('', { start: caret.start, end: caret.end + 1 });
+    }
+
+    if (name === 'Control+V') {
+      const insert = await this.app.clipboardAction();
+      this.sendKey(insert);
+    }
+    if (name === 'Control+C') {
+      const selected = document.getSelection();
+      this.app.clipboardAction(selected);
+    }
+    if (name === 'Control+X') {
+      const selected = document.getSelection();
+      this.app.clipboardAction(selected);
+      this.sendKey('');
+    }
+
+    if (name === 'Control+A') {
+      this.el.setSelectionRange(0, value.length);
+      this.focus();
     }
 
     const navKeys = ['ArrowUp', 'ArrowLeft', 'ArrowDown', 'ArrowRight'];
